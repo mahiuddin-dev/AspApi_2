@@ -3,14 +3,13 @@ using AspApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
-
 namespace AspApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class PostController : ControllerBase
     {
-        ApplicationDBContext _dbContext;
+        private readonly ApplicationDBContext _dbContext;
 
         public PostController(ApplicationDBContext dbContext)
         {
@@ -37,6 +36,17 @@ namespace AspApi.Controllers
                 return post;
             }
             return null;
+        }
+
+        [HttpGet]
+        public IActionResult GetOnePost(int id) {
+            var post = _dbContext.Posts.Find(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
+
         }
 
     }
