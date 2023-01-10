@@ -51,7 +51,7 @@ namespace AspApi.Controllers
             return null;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetOnePost(int id) {
             //var post = _dbContext.Posts.Find(id);
             var post = _postManager.GetById(id);
@@ -62,6 +62,23 @@ namespace AspApi.Controllers
             return Ok(post);
 
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Post post)
+        {
+            var existingPost = _postManager.GetById(id);
+            if (existingPost == null)
+            {
+                return NotFound();
+            }
+            bool isSaved = _postManager.Update(post);
+            if (isSaved)
+            {
+                return Ok(post);
+            }
+            return Ok(post);
+        }
+
 
     }
 }
