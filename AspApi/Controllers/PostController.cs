@@ -80,7 +80,7 @@ namespace AspApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public string Delete(int id)
         {
             var post = _postManager.GetById(id);
             if(post != null)
@@ -88,11 +88,11 @@ namespace AspApi.Controllers
                 bool isDelete = _postManager.Delete(post);
                 if(isDelete)
                 {
-                    return Ok(post);
+                    return "Delete successfully";
                 }
-                return BadRequest();
+                return "Delete Faild";
             }
-            return NotFound();
+            return "Not Found";
         }
 
 
