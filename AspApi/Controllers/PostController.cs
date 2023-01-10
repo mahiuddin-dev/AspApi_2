@@ -27,72 +27,105 @@ namespace AspApi.Controllers
         }
 
         [HttpGet]
-        public List<Post> Getall()
+        public IActionResult Getall()
         {
-           // var posts = _dbContext.Posts.ToList();
-           var posts = _postManager.GetAll().ToList();
-           return posts;
-        }
-
-        [HttpPost]
-        public Post AddPost(Post post)
-        {
-            post.CreateDate = DateTime.Now;
-
-            // _dbContext.Posts.Add(post);
-            // bool isSaved = _dbContext.SaveChanges() > 0;
-
-            bool isSaved = _postManager.Add(post);
-
-            if(isSaved)
+            try
             {
-                return post;
+                // var posts = _dbContext.Posts.ToList();
+                var posts = _postManager.GetAll().ToList();
+                return Ok(posts);
             }
-            return null;
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetOnePost(int id) {
-            //var post = _dbContext.Posts.Find(id);
-            var post = _postManager.GetById(id);
-            if (post == null )
+        public IActionResult GetOnePost(int id)
+        {
+            try
             {
-                return NotFound();
+                //var post = _dbContext.Posts.Find(id);
+                var post = _postManager.GetById(id);
+                if (post == null)
+                {
+                    return NotFound();
+                }
+                return Ok(post);
             }
-            return Ok(post);
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
+        }
+
+        [HttpPost]
+        public IActionResult AddPost(Post post)
+        {
+            try
+            {
+                post.CreateDate = DateTime.Now;
+
+                // _dbContext.Posts.Add(post);
+                // bool isSaved = _dbContext.SaveChanges() > 0;
+
+                bool isSaved = _postManager.Add(post);
+
+                if (isSaved)
+                {
+                    return Ok(post);
+                }
+                return null;
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, Post post)
         {
-            var existingPost = _postManager.GetById(id);
-            if (existingPost == null)
+            try
             {
-                return NotFound();
-            }
-            bool isSaved = _postManager.Update(post);
-            if (isSaved)
+                var existingPost = _postManager.GetById(id);
+                if (existingPost == null)
+                {
+                    return NotFound();
+                }
+                bool isSaved = _postManager.Update(post);
+                if (isSaved)
+                {
+                    return Ok(post);
+                }
+                return Ok("Post isn't save");
+            }catch(Exception ex)
             {
-                return Ok(post);
+                return BadRequest(ex.Message);
             }
-            return Ok(post);
         }
 
         [HttpDelete("{id}")]
-        public string Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var post = _postManager.GetById(id);
-            if(post != null)
+            try
             {
-                bool isDelete = _postManager.Delete(post);
-                if(isDelete)
+                var post = _postManager.GetById(id);
+                if (post != null)
                 {
-                    return "Delete successfully";
+                    bool isDelete = _postManager.Delete(post);
+                    if (isDelete)
+                    {
+                        return Ok("Delete successfully");
+                    }
+                    return Ok("Delete Faild");
                 }
-                return "Delete Faild";
+                return Ok("Not Found");
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
-            return "Not Found";
         }
 
 
