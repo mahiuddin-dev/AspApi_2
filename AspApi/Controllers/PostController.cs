@@ -22,17 +22,20 @@ namespace AspApi.Controllers
         [HttpGet]
         public List<Post> Getall()
         {
-            var posts = _dbContext.Posts.ToList();
-            return posts;
+           // var posts = _dbContext.Posts.ToList();
+           var posts = _postManager.GetAll().ToList();
+           return posts;
         }
 
         [HttpPost]
         public Post AddPost(Post post)
         {
             post.CreateDate = DateTime.Now;
-            _dbContext.Posts.Add(post);
 
-            bool isSaved = _dbContext.SaveChanges() > 0;
+            // _dbContext.Posts.Add(post);
+            // bool isSaved = _dbContext.SaveChanges() > 0;
+
+            bool isSaved = _postManager.Add(post);
 
             if(isSaved)
             {
@@ -43,8 +46,9 @@ namespace AspApi.Controllers
 
         [HttpGet]
         public IActionResult GetOnePost(int id) {
-            var post = _dbContext.Posts.Find(id);
-            if (post == null)
+            //var post = _dbContext.Posts.Find(id);
+            var post = _postManager.GetFirstOrDefault(p => p.Id == id);
+            if (post == null )
             {
                 return NotFound();
             }

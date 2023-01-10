@@ -9,5 +9,6 @@ namespace AspApi.Repository
     public class PostRepository : CommonRepository<Post>, iPostRepository
     {
         public PostRepository(ApplicationDBContext dbContext) : base(dbContext) { }
+
     }
 }
