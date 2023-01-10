@@ -79,6 +79,22 @@ namespace AspApi.Controllers
             return Ok(post);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var post = _postManager.GetById(id);
+            if(post != null)
+            {
+                bool isDelete = _postManager.Delete(post);
+                if(isDelete)
+                {
+                    return Ok(post);
+                }
+                return BadRequest();
+            }
+            return NotFound();
+        }
+
 
     }
 }
