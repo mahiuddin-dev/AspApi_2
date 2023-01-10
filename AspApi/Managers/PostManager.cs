@@ -12,5 +12,10 @@ namespace AspApi.Managers
         public PostManager(ApplicationDBContext _dbContext) : base(new PostRepository(_dbContext))
         {
         }
+
+        public Post GetById(int id)
+        {
+            return GetFirstOrDefault(i=> i.Id == id);
+        }
     }
 }

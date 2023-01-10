@@ -54,7 +54,7 @@ namespace AspApi.Controllers
         [HttpGet]
         public IActionResult GetOnePost(int id) {
             //var post = _dbContext.Posts.Find(id);
-            var post = _postManager.GetFirstOrDefault(p => p.Id == id);
+            var post = _postManager.GetById(id);
             if (post == null )
             {
                 return NotFound();

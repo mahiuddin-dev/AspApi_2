@@ -5,5 +5,6 @@ namespace AspApi.Interfaces.Manager
 {
     public interface iPostManager : ICommonManager<Post>
     {
+        Post GetById(int id);
     }
 }
