@@ -1,4 +1,5 @@
 ﻿using AspApi.Context;
+using AspApi.Managers;
 using AspApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace AspApi.Controllers
     public class PostController : ControllerBase
     {
         private readonly ApplicationDBContext _dbContext;
+        PostManager _postManager;
 
         public PostController(ApplicationDBContext dbContext)
         {
             _dbContext = dbContext;
+            _postManager = new PostManager(dbContext);
         }
 
         [HttpGet]
